@@ -1,0 +1,31 @@
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_CXX_STANDARD 14)
+
+find_package(Qt5 COMPONENTS Core
+                            Network
+                            Sql
+                            Quick
+                            QuickControls2 REQUIRED)
+
+set(QT_LIBRARIES ${Qt5Core_LIBRARIES}
+                 ${Qt5Network_LIBRARIES}
+                 ${Qt5Sql_LIBRARIES}
+                 ${Qt5Quick_LIBRARIES}
+                 ${Qt5QuickControls2_LIBRARIES})
+
+set(QML_IMPORT_PATH ${PROJECT_SOURCE_DIR}/qml)
+set(QML2_IMPORT_PATH ${PROJECT_SOURCE_DIR}/qml)
+				
+if(NOT DEFINED HEADERS)
+    file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+endif()
+if(NOT DEFINED SOURCES)
+    file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
+				
+qt5_add_resources(RESOURCES qml.qrc)
+
+add_executable(taskSTC ${HEADERS} ${SOURCES} ${RESOURCES})
+qt5_use_modules(taskSTC Core Quick QuickControls2 Network  Sql)
