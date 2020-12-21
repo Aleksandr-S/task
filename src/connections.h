@@ -1,6 +1,6 @@
 #pragma once
 
-#include <deque>
+#include <forward_list>
 
 #include "serverthread.h"
 
@@ -26,6 +26,6 @@ public:
     void appendMessage(const Message &message);
 
 private:
-    std::deque<ServerThread *> m_list;
+    std::forward_list<ServerThread *> m_list;
     QMutex m_mutex;
 };

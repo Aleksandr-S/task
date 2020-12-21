@@ -5,6 +5,11 @@
 
 qint32 Persons::m_id = 0;
 
+Persons::Persons()
+{
+    m_list.reserve(100);
+}
+
 Person Persons::add(const Person &d)
 {
     Person person(d);

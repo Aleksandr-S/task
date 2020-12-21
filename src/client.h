@@ -10,7 +10,7 @@ class Client: public QObject
     Q_OBJECT
 
 public:
-    Client(QObject *parent = nullptr);
+    explicit Client(QObject *parent = nullptr);
 
     void connectToHost(const QHostAddress &address, quint16 port);
 

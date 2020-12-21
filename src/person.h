@@ -16,7 +16,7 @@ public:
         Ukraine = 38
     };
 
-    Person(QObject *parent = Q_NULLPTR);
+    explicit Person(QObject *parent = Q_NULLPTR);
     Person(const QString &name,
            quint64 telephone,
            Person::Country country,

@@ -11,7 +11,7 @@ class Server: public QTcpServer
     Q_OBJECT
 
 public:
-    Server(QObject *parent = nullptr);
+    explicit Server(QObject *parent = nullptr);
 
 protected:
     void incomingConnection(qintptr socketDesc) override;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <deque>
+#include <queue>
 #include <memory>
 
 #include "person.h"
@@ -27,7 +27,7 @@ public:
         QVariant value;
     };
 
-    DataBase(QObject *parent = Q_NULLPTR);
+    explicit DataBase(QObject *parent = Q_NULLPTR);
     ~DataBase() override;
 
     void getAll();
@@ -59,6 +59,6 @@ private:
     bool m_stopping = false;
     bool m_started = false;
 
-    std::deque<Request> m_queue;
+    std::queue<Request> m_queue;
     QMutex mutexReqDb;
 };

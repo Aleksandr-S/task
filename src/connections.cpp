@@ -3,17 +3,14 @@
 void Connections::add(ServerThread *d)
 {
     m_mutex.lock();
-    m_list.push_back(d);
+    m_list.push_front(d);
     m_mutex.unlock();
 }
 
 void Connections::remove(ServerThread *d)
 {
     m_mutex.lock();
-    auto it = std::find(m_list.begin(), m_list.end(), d);
-    if(it != std::end(m_list))
-        m_list.erase(it);
-
+    m_list.remove_if([&d] (ServerThread *l) { return l == d; });
     m_mutex.unlock();
 }
 

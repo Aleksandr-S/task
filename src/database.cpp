@@ -23,39 +23,32 @@ DataBase::~DataBase()
 void DataBase::getAll()
 {
     mutexReqDb.lock();
-    Request req;
-    req.reqDb = RequestDb::GET_ALL;
-    m_queue.push_back(req);
+    Request req { RequestDb::GET_ALL, QVariant()};
+    m_queue.push(std::move(req));
     mutexReqDb.unlock();
 }
 
 void DataBase::add(const Person &p)
 {
     mutexReqDb.lock();
-    Request req;
-    req.reqDb = RequestDb::ADD;
-    req.value.setValue(p);
-    m_queue.push_back(req);
+    Request req { RequestDb::ADD, QVariant::fromValue(p)};
+    m_queue.push(std::move(req));
     mutexReqDb.unlock();
 }
 
 void DataBase::update(const Person &p)
 {
     mutexReqDb.lock();
-    Request req;
-    req.reqDb = RequestDb::UPDATE;
-    req.value.setValue(p);
-    m_queue.push_back(req);
+    Request req { RequestDb::UPDATE, QVariant::fromValue(p)};
+    m_queue.push(std::move(req));
     mutexReqDb.unlock();
 }
 
 void DataBase::remove(const Person &p)
 {
     mutexReqDb.lock();
-    Request req;
-    req.reqDb = RequestDb::REMOVE;
-    req.value.setValue(p);
-    m_queue.push_back(req);
+    Request req { RequestDb::REMOVE, QVariant::fromValue(p)};
+    m_queue.push(std::move(req));
     mutexReqDb.unlock();
 }
 
@@ -84,7 +77,7 @@ void DataBase::run()
                 continue;
             }
 
-            const Request &req = m_queue.front();
+            const Request &req = m_queue.back();
 
             switch (req.reqDb) {
             case RequestDb::ADD:
@@ -103,7 +96,7 @@ void DataBase::run()
                 break;
             }
 
-            m_queue.pop_front();
+            m_queue.pop();
             mutexReqDb.unlock();
 
             msleep(50);

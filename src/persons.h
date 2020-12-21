@@ -9,7 +9,7 @@
 class Persons
 {
 private:
-    Persons() {}
+    Persons();
     virtual ~Persons() {}
 
     Persons(Persons const&) = delete;

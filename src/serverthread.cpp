@@ -11,6 +11,7 @@ ServerThread::ServerThread(int socketDesc, std::shared_ptr<DataBase> db, QObject
     , m_socketDesc(socketDesc)
     , m_db(db)
 {
+    m_messages.reserve(10);
     Connections::instance().add(this);
 }
 
@@ -39,7 +40,7 @@ void ServerThread::run()
     }
 
     if (m_socket->state() != QAbstractSocket::UnconnectedState)
-        m_socket->waitForBytesWritten(500);
+        m_socket->waitForBytesWritten(300);
 
     while (m_running && m_socket->state() != QAbstractSocket::UnconnectedState) {
         if (m_socket->waitForReadyRead(100))
@@ -51,7 +52,7 @@ void ServerThread::run()
             data.prepend(v.data());
             m_socket->write(data);
         }
-        m_socket->waitForBytesWritten(500);
+        m_socket->waitForBytesWritten(300);
         m_messages.clear();
         m_mutex.unlock();
     }
